@@ -1,7 +1,8 @@
 import path from "path";
-import webpack, {Configuration} from "webpack";
+import webpack, { Configuration } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
 
 const webpackConfig = (env): Configuration => ({
     entry: "./src/index.tsx",
@@ -12,8 +13,8 @@ const webpackConfig = (env): Configuration => ({
         }
     },
     output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "build.js"
+        path: path.join(__dirname, "/Resources"),
+        filename: "middleware.js"
     },
     module: {
         rules: [
@@ -23,8 +24,23 @@ const webpackConfig = (env): Configuration => ({
                 options: {
                     transpileOnly: true
                 },
-                exclude: /dist/
-            }
+                exclude: /Resources/
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]'
+                        }
+                    },
+                ],
+            },
+            {
+                test: /\.css$/i,
+                use: ['css-loader'],
+            },
         ]
     },
     plugins: [
@@ -36,7 +52,16 @@ const webpackConfig = (env): Configuration => ({
             "process.env.NAME": JSON.stringify(require("./package.json").name),
             "process.env.VERSION": JSON.stringify(require("./package.json").version)
         }),
-        new ForkTsCheckerWebpackPlugin({eslint: true})
+        new ForkTsCheckerWebpackPlugin({
+            eslint: {
+                files: './src/**/*.{ts,tsx,js,jsx}' // required - same as command `eslint ./src/**/*.{ts,tsx,js,jsx} --ext .ts,.tsx,.js,.jsx`
+            }
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: 'public', to: '' },
+            ],
+        }),
     ]
 });
 

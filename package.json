@@ -6,11 +6,10 @@
   "repository": "https://github.com/GR34SE/react-typescript-starter.git",
   "license": "MIT",
   "private": false,
+  "homepage": "/map1/",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --env.development --open --hot --progress",
-    "build": "webpack --mode production --env.production --progress",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
-    "lint:fix": "eslint './src/**/*.{ts,tsx}' --fix"
+    "dev": "webpack-dev-server --mode development --env.development --open --hot --progress --debug --output-pathinfo",
+    "build": "webpack --mode production --env.production --progress"
   },
   "devDependencies": {
     "@types/node": "13.13.15",
@@ -37,7 +36,15 @@
     "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^6.0.3",
+    "css-loader": "^4.2.0",
+    "file-loader": "^6.0.0",
+    "graphql-playground-react": "^1.7.23",
+    "oidc-client": "^1.10.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-oidc": "^1.0.2",
+    "react-redux": "^7.2.1",
+    "react-router-dom": "^5.2.0"
   }
 }
